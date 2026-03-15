@@ -80,7 +80,6 @@ bot.use(
 
 // Activity tracker middleware
 activityTracker(bot);
-userTrackerMiddleware(bot);
 
 startCommand(bot);
 helpCommand(bot);
