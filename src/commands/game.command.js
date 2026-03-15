@@ -3,27 +3,32 @@ const env = require('../config/env');
 
 module.exports = (bot) => {
   bot.command('game', async (ctx) => {
-    const gameUrl = `${env.RENDER_EXTERNAL_URL}/game/`;
-    
-    await ctx.reply(
-      '🎮 **QUSH O\'YINI**\n\n' +
-      '📱 **O\'yin xususiyatlari:**\n' +
-      '• 🐦 Qushni boshqarish - space yoki ↑ tugmasi\n' +
-      '• 🚧 Quvurlardan o\'tish - ular orasidan o\'tish\n' +
-      '• 📊 Har quvurdan ball olish\n' +
-      '• 🏆 High score saqlanadi\n' +
-      '• 🎨 Chiroyli dizayn va animatsiyalar\n\n' +
-      '🎮 **Boshqarish:**\n' +
-      '• 📱 Mobil: Ekranga bosing\n' +
-      '• ⌨️ Kompyuter: Space yoki ↑ tugmasini bosing\n\n' +
-      '🌐 **O\'yinni ochish:**\n\n' +
-      `🔗 [O\'yni boshlash](${gameUrl})\n\n` +
-      '🎯 Omad!',
-      Markup.inlineKeyboard([
-        [Markup.button.url('🎮 O\'yni boshlash', gameUrl)],
-        [Markup.button.callbackQuery('📊 Statistika', 'game_stats')]
-      ])
-    );
+    try {
+      const gameUrl = `${env.RENDER_EXTERNAL_URL}/game/`;
+      
+      await ctx.reply(
+        '🎮 **QUSH O\'YINI**\n\n' +
+        '📱 **O\'yin xususiyatlari:**\n' +
+        '• 🐦 Qushni boshqarish - space yoki ↑ tugmasi\n' +
+        '• 🚧 Quvurlardan o\'tish - ular orasidan o\'tish\n' +
+        '• 📊 Har quvurdan ball olish\n' +
+        '• 🏆 High score saqlanadi\n' +
+        '• 🎨 Chiroyli dizayn va animatsiyalar\n\n' +
+        '🎮 **Boshqarish:**\n' +
+        '• 📱 Mobil: Ekranga bosing\n' +
+        '• ⌨️ Kompyuter: Space yoki ↑ tugmasini bosing\n\n' +
+        '🌐 **O\'yinni ochish:**\n\n' +
+        `🔗 [O\'yni boshlash](${gameUrl})\n\n` +
+        '🎯 Omad!',
+        Markup.inlineKeyboard([
+          [Markup.button.url('🎮 O\'yni boshlash', gameUrl)],
+          [Markup.button.callbackQuery('📊 Statistika', 'game_stats')]
+        ])
+      );
+    } catch (error) {
+      console.error('Game command xato:', error);
+      await ctx.reply('❌ O\'yinni ochishda xatolik yuz berdi.');
+    }
   });
   
   // Statistika callback
