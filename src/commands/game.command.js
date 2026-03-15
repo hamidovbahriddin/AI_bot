@@ -4,7 +4,10 @@ const env = require('../config/env');
 module.exports = (bot) => {
   bot.command('game', async (ctx) => {
     try {
+      console.log('Game command called by:', ctx.from.id);
+      
       const gameUrl = `${env.RENDER_EXTERNAL_URL}/game/`;
+      console.log('Game URL:', gameUrl);
       
       await ctx.reply(
         '🎮 **QUSH O\'YINI**\n\n' +
@@ -20,11 +23,20 @@ module.exports = (bot) => {
         '🌐 **O\'yinni ochish:**\n\n' +
         `🔗 [O\'yni boshlash](${gameUrl})\n\n` +
         '🎯 Omad!',
-        Markup.inlineKeyboard([
-          [Markup.button.url('🎮 O\'yni boshlash', gameUrl)],
-          [Markup.button.callbackQuery('📊 Statistika', 'game_stats')]
-        ])
+        {
+          parse_mode: 'Markdown',
+          reply_markup: {
+            inline_keyboard: [
+              [
+                { text: '🎮 O\'yni boshlash', url: gameUrl },
+                { text: '📊 Statistika', callback_data: 'game_stats' }
+              ]
+            ]
+          }
+        }
       );
+      
+      console.log('Game reply sent successfully');
     } catch (error) {
       console.error('Game command xato:', error);
       await ctx.reply('❌ O\'yinni ochishda xatolik yuz berdi.');
