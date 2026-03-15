@@ -53,6 +53,8 @@ module.exports = (bot) => {
         `✅ Barcha foydalanuvchilar, statistika, global boshqarish\n\n` +
         `🆔 O'zing ID ni topish\n` +
         `/getid - o'zingizning Telegram ID ni ko'rish\n\n` +
+        `🎮 O'yinlar\n` +
+        `/game - qush o'yini\n\n` +
         `/news [category] - IT news olish\n` +
         `/settings - hozirgi sozlamalar\n` +
         `/setchannel @username - auto-post uchun kanal ulash\n` +
@@ -68,8 +70,9 @@ module.exports = (bot) => {
         ['/interactions', '/contacts'],
         ['/socialprofile', '/fullinfo'],
         ['/premium', '/userinfo'],
-        ['/getid', '/start'],
-        ['/help', '/cancel']
+        ['/game', '/getid'],
+        ['/start', '/help'],
+        ['/cancel']
       ]).resize()
     );
   });

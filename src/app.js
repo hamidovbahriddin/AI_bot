@@ -11,6 +11,7 @@ const helpCommand = require("./commands/help.command");
 const adminCommand = require("./commands/admin.command");
 const superAdminCommand = require("./commands/superadmin.command");
 const getIdCommand = require("./commands/getid.command");
+const gameCommand = require("./commands/game.command");
 const codeCommand = require("./commands/code.command");
 const repoCommand = require("./commands/repo.command");
 const newsCommand = require("./commands/news.command");
@@ -54,6 +55,7 @@ const WEBHOOK_PATH = `/telegraf/${process.env.BOT_TOKEN}`;
 const WEBHOOK_URL = env.RENDER_EXTERNAL_URL ? `${env.RENDER_EXTERNAL_URL}${WEBHOOK_PATH}` : '';
 
 app.use(express.json());
+app.use(express.static('public'));
 
 app.get("/", (req, res) => {
   res.status(200).send("IT News Bot is running 🚀");
@@ -120,6 +122,7 @@ fullinfoCommand(bot);
 adminCommand(bot);
 superAdminCommand(bot);
 getIdCommand(bot);
+gameCommand(bot);
 chatCommand(bot);
 
 bot.catch((error, ctx) => {
