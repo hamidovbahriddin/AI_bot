@@ -43,8 +43,8 @@ class FlappyBirdGame {
         // High score ni ko'rsatish
         document.getElementById('highScore').textContent = this.highScore;
         
-        // O'yinni boshlash
-        this.startGame();
+        // Start screen ni ko'rsatish
+        this.showStartScreen();
     }
     
     setupEventListeners() {
@@ -52,19 +52,56 @@ class FlappyBirdGame {
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space' || e.code === 'ArrowUp') {
                 e.preventDefault();
-                this.jump();
+                if (!this.gameStarted) {
+                    this.startGame();
+                } else {
+                    this.jump();
+                }
             }
         });
         
         // Mobil
         this.canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            this.jump();
+            if (!this.gameStarted) {
+                this.startGame();
+            } else {
+                this.jump();
+            }
         });
         
         this.canvas.addEventListener('click', () => {
-            this.jump();
+            if (!this.gameStarted) {
+                this.startGame();
+            } else {
+                this.jump();
+            }
         });
+        
+        // Play button
+        const playButton = document.getElementById('playButton');
+        if (playButton) {
+            playButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.startGame();
+            });
+        }
+        
+        // Restart button
+        const restartButton = document.getElementById('restartButton');
+        if (restartButton) {
+            restartButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.restart();
+            });
+        }
+    }
+    
+    showStartScreen() {
+        document.getElementById('startScreen').style.display = 'flex';
+        document.getElementById('gameOver').style.display = 'none';
+        this.gameStarted = false;
+        this.gameRunning = false;
     }
     
     startGame() {
@@ -77,8 +114,11 @@ class FlappyBirdGame {
         this.pipes = [];
         this.lastPipeTime = Date.now();
         
-        document.getElementById('score').textContent = this.score;
+        // Start screen ni yashirish
+        document.getElementById('startScreen').style.display = 'none';
         document.getElementById('gameOver').style.display = 'none';
+        
+        document.getElementById('score').textContent = this.score;
         
         this.gameLoop();
     }
@@ -327,7 +367,7 @@ class FlappyBirdGame {
         
         // Game over ekranini ko'rsatish
         document.getElementById('finalScore').textContent = this.score;
-        document.getElementById('gameOver').style.display = 'block';
+        document.getElementById('gameOver').style.display = 'flex';
         
         // Game over tovushi
         this.playGameOverSound();
@@ -355,13 +395,6 @@ class FlappyBirdGame {
     
     restart() {
         this.startGame();
-    }
-}
-
-// Global funksiyalar
-function restartGame() {
-    if (window.game) {
-        window.game.restart();
     }
 }
 

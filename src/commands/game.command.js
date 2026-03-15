@@ -11,25 +11,20 @@ module.exports = (bot) => {
       
       await ctx.reply(
         '🎮 **QUSH O\'YINI**\n\n' +
-        '📱 **O\'yin xususiyatlari:**\n' +
-        '• 🐦 Qushni boshqarish - space yoki ↑ tugmasi\n' +
-        '• 🚧 Quvurlardan o\'tish - ular orasidan o\'tish\n' +
-        '• 📊 Har quvurdan ball olish\n' +
-        '• 🏆 High score saqlanadi\n' +
-        '• 🎨 Chiroyli dizayn va animatsiyalar\n\n' +
+        '� **O\'yin haqida:**\n' +
+        '• Quvurlardan o\'tib ball yig\'ing\n' +
+        '• Qushni pastga tushirmang\n' +
+        '• High score yig\'ing\n\n' +
         '🎮 **Boshqarish:**\n' +
         '• 📱 Mobil: Ekranga bosing\n' +
-        '• ⌨️ Kompyuter: Space yoki ↑ tugmasini bosing\n\n' +
-        '🌐 **O\'yinni ochish:**\n\n' +
-        `🔗 [O\'yni boshlash](${gameUrl})\n\n` +
-        '🎯 Omad!',
+        '• ⌨️ Kompyuter: Space yoki ↑\n\n' +
+        '� **O\'yni boshlash uchun PLAY tugmasini bosing!**',
         {
           parse_mode: 'Markdown',
           reply_markup: {
             inline_keyboard: [
               [
-                { text: '🎮 O\'yni boshlash', url: gameUrl },
-                { text: '📊 Statistika', callback_data: 'game_stats' }
+                { text: '🎮 PLAY', web_app: { url: gameUrl } }
               ]
             ]
           }

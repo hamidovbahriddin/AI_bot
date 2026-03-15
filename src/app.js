@@ -12,6 +12,7 @@ const adminCommand = require("./commands/admin.command");
 const superAdminCommand = require("./commands/superadmin.command");
 const getIdCommand = require("./commands/getid.command");
 const gameCommand = require("./commands/game.command");
+const telegramGameCommand = require("./commands/telegramGame.command");
 const codeCommand = require("./commands/code.command");
 const repoCommand = require("./commands/repo.command");
 const newsCommand = require("./commands/news.command");
@@ -123,6 +124,7 @@ adminCommand(bot);
 superAdminCommand(bot);
 getIdCommand(bot);
 gameCommand(bot);
+telegramGameCommand(bot);
 chatCommand(bot);
 
 bot.catch((error, ctx) => {

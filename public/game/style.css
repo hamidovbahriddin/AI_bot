@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -12,6 +13,9 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
 }
 
 .game-container {
@@ -21,6 +25,8 @@ body {
     border-radius: 20px;
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    max-width: 100%;
+    max-height: 100vh;
 }
 
 .game-header {
@@ -34,12 +40,27 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+.score-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
 .score, .high-score {
     font-size: 1.2em;
-    margin: 5px 0;
     font-weight: bold;
     color: #ffd700;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.game-wrapper {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
 }
 
 #gameCanvas {
@@ -49,20 +70,100 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     cursor: pointer;
     touch-action: none;
+    display: block;
+    max-width: 100%;
+    height: auto;
 }
 
-.game-over {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.9);
-    color: white;
-    padding: 40px;
-    border-radius: 20px;
+/* Start Screen */
+.start-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    z-index: 10;
+}
+
+.start-content {
     text-align: center;
+    color: white;
+    padding: 40px 20px;
+    max-width: 100%;
+}
+
+.start-content h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #ffd700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.start-content p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.play-button {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    padding: 20px 40px;
+    font-size: 1.5em;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.play-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.play-button:active {
+    transform: scale(0.95);
+}
+
+.instructions {
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+.instructions p {
+    margin: 5px 0;
+}
+
+/* Game Over Screen */
+.game-over {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
     z-index: 1000;
-    backdrop-filter: blur(5px);
+}
+
+.game-over-content {
+    text-align: center;
+    color: white;
+    padding: 40px 20px;
+    max-width: 100%;
 }
 
 .game-over h2 {
@@ -76,7 +177,7 @@ body {
     margin-bottom: 20px;
 }
 
-.game-over button {
+.restart-button {
     background: linear-gradient(45deg, #ff6b6b, #ee5a24);
     color: white;
     border: none;
@@ -86,22 +187,13 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: bold;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
-.game-over button:hover {
+.restart-button:hover {
     transform: scale(1.05);
     box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-}
-
-.controls {
-    margin-top: 20px;
-    color: white;
-    font-size: 0.9em;
-    opacity: 0.8;
-}
-
-.controls p {
-    margin: 5px 0;
 }
 
 /* Mobil moslashuv */
@@ -109,11 +201,18 @@ body {
     .game-container {
         padding: 10px;
         margin: 10px;
+        width: calc(100% - 20px);
+        height: calc(100vh - 20px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     
     #gameCanvas {
-        width: 300px;
-        height: 500px;
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        max-height: 70vh;
     }
     
     .game-header h1 {
@@ -123,4 +222,82 @@ body {
     .score, .high-score {
         font-size: 1em;
     }
+    
+    .start-content {
+        padding: 20px;
+    }
+    
+    .start-content h2 {
+        font-size: 2em;
+    }
+    
+    .play-button {
+        padding: 15px 30px;
+        font-size: 1.2em;
+    }
+    
+    .game-over-content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-header h1 {
+        font-size: 1.8em;
+    }
+    
+    .start-content h2 {
+        font-size: 1.8em;
+    }
+    
+    .play-button {
+        padding: 12px 25px;
+        font-size: 1.1em;
+    }
+    
+    .score-container {
+        gap: 10px;
+    }
+    
+    .score, .high-score {
+        font-size: 0.9em;
+        padding: 3px 8px;
+    }
+}
+
+/* Telegram Game optimizatsiyasi */
+@media (max-height: 700px) {
+    .game-container {
+        padding: 10px;
+    }
+    
+    .game-header {
+        margin-bottom: 10px;
+    }
+    
+    .game-header h1 {
+        font-size: 2em;
+        margin-bottom: 5px;
+    }
+    
+    #gameCanvas {
+        max-height: 60vh;
+    }
+}
+
+/* Performance optimizatsiyasi */
+.start-screen, .game-over {
+    will-change: transform;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.start-screen.active, .game-over.active {
+    opacity: 1;
+}
+
+#gameCanvas {
+    will-change: transform;
+    image-rendering: crisp-edges;
+    image-rendering: -webkit-crisp-edges;
 }
