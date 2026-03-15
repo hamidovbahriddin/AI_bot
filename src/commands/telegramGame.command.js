@@ -12,6 +12,34 @@ module.exports = (bot) => {
       console.log('Game short name:', gameShortName);
       console.log('Game URL:', gameUrl);
       
+      // Agar game short name bo'lmasa, WebApp yuboramiz
+      if (!gameShortName || gameShortName === 'birds_game') {
+        console.log('Using WebApp fallback - no proper game short name');
+        await ctx.reply(
+          '🎮 **FLAPPY BIRD**\n\n' +
+          '🐦 **O\'yin haqida:**\n' +
+          '• Quvurlardan o\'tib ball yig\'ing\n' +
+          '• Qushni pastga tushirmang\n' +
+          '• High score yig\'ing\n\n' +
+          '🎮 **Boshqarish:**\n' +
+          '• 📱 Mobil: Ekranga bosing\n' +
+          '• ⌨️ Kompyuter: Space yoki ↑\n\n' +
+          '🎯 **O\'yni boshlash uchun PLAY tugmasini bosing!**',
+          {
+            parse_mode: 'Markdown',
+            reply_markup: {
+              inline_keyboard: [
+                [
+                  { text: '🎮 PLAY', web_app: { url: gameUrl } }
+                ]
+              ]
+            }
+          }
+        );
+        console.log('WebApp sent successfully');
+        return;
+      }
+      
       // Telegram Game API orqali game yuborish
       await ctx.sendGame(gameShortName, {
         disable_notification: false,
@@ -22,11 +50,11 @@ module.exports = (bot) => {
     } catch (error) {
       console.error('Game command xato:', error);
       
-      // Agar Game API ishlamasa, fallback sifatida WebApp yuboramiz
+      // Fallback sifatida WebApp yuboramiz
       try {
         const gameUrl = env.GAME_URL;
         await ctx.reply(
-          '🎮 **QUSH O\'YINI**\n\n' +
+          '🎮 **FLAPPY BIRD**\n\n' +
           '🐦 **O\'yin haqida:**\n' +
           '• Quvurlardan o\'tib ball yig\'ing\n' +
           '• Qushni pastga tushirmang\n' +

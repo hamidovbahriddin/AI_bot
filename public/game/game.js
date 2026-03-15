@@ -45,6 +45,13 @@ class FlappyBirdGame {
         
         // Start screen ni ko'rsatish
         this.showStartScreen();
+        
+        // Telegram WebApp ni tekshirish
+        if (window.Telegram && window.Telegram.WebApp) {
+            console.log('Telegram WebApp detected');
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+        }
     }
     
     setupEventListeners() {
@@ -365,6 +372,11 @@ class FlappyBirdGame {
             document.getElementById('highScore').textContent = this.highScore;
         }
         
+        // Telegramga score yuborish
+        if (window.telegramGame) {
+            window.telegramGame.sendScore(this.score);
+        }
+        
         // Game over ekranini ko'rsatish
         document.getElementById('finalScore').textContent = this.score;
         document.getElementById('gameOver').style.display = 'flex';
@@ -400,5 +412,12 @@ class FlappyBirdGame {
 
 // O'yinni ishga tushirish
 window.addEventListener('DOMContentLoaded', () => {
-    window.game = new FlappyBirdGame();
+    // Telegram WebApp yuklangandan keyin o'yinni ishga tushirish
+    if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.ready(() => {
+            window.game = new FlappyBirdGame();
+        });
+    } else {
+        window.game = new FlappyBirdGame();
+    }
 });
